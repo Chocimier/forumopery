@@ -41,3 +41,6 @@ def dodajWpis(uzytkownik, tresc, nr_watku):
 
 	k.execute(zapytanie, zmienne)
 	baza.commit()
+
+def oprawWpis(tresc):
+	return tresc.replace('<', '&lt;').replace('>', '&gt;')
