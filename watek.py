@@ -29,11 +29,11 @@ class Watek:
 		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia)
 		wpisy = ""
 		for autor, tresc, czas_wyslania in self.wpisy(nr_watku):
-			czas_krotka = strptime(str(czas_wyslania), "%Y%m%d%H%M%S")
+			czas_krotka = strptime(str(czas_wyslania), narzedzia.format_czasu_w_bazie)
 			czas_ladnie = strftime('{dzien[%w]} %d {miesiac[%m]} %Y o %H<sup class=minuta>%M</sup>', czas_krotka).format(miesiac=narzedzia.odmienione_miesiace, dzien=narzedzia.odmienione_dni)
 			czas_iso = strftime('%Y-%m-%d %H:%M', czas_krotka)
 			wpisy += self.szablon_wpisu.format(autor=autor.encode('utf8'), tresc=tresc.encode('utf8'), czas_iso=czas_iso, czas_ladnie=czas_ladnie)
-		return self.szablon.format(tytul=tytul.encode('utf8'), nazwa_dzialu=nazwa_dzialu.encode('utf8'), nr_dzialu=nr_dzialu, wpisy=wpisy, zamkniety=oZamknieciu)
+		return self.szablon.format(tytul=tytul.encode('utf8'), nazwa_dzialu=nazwa_dzialu.encode('utf8'), nr_dzialu=nr_dzialu, wpisy=wpisy, zamkniety=oZamknieciu, nr_watku=nr_watku)
 
 	def strona(self, nr_watku):
 		zapytanie = 'SELECT nr_watku FROM watki WHERE nr_watku=?;'

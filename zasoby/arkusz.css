@@ -5,3 +5,12 @@
 .minuta {
 	text-decoration: underline;
 }
+
+.etykietaTreściWpisu {
+	display: block;
+}
+
+textarea {
+	height: 30%;
+	width: 100%;
+}

@@ -1,11 +1,12 @@
 #!/usr/bin/env python2
 #coding: utf8
 
-from bottle import default_app, route, request
+from bottle import default_app, route, request, post
 
 from watek import Watek
 from dzial import Dzial
 from glowna import Glowna
+from nowywpis import NowyWpis
 
 def liczba(napis):
 	try:
@@ -30,5 +31,10 @@ def podstrona(adres):
 		return Dzial().strona(liczba(zapytanie))
 	else:
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
+@post('/nowywpis.py')
+def glowna():
+	return NowyWpis().strona(request.forms)
+
 
 application = default_app()

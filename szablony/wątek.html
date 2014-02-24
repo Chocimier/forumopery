@@ -8,4 +8,10 @@
 <main>
 {wpisy}
 </main>
+<form action=nowywpis.py method=post>
+<label>Ksywka: <input type=text name=ksywka /></label> <label>Hasło: <input type=password name=hasło /></label>
+<label class=etykietaTreściWpisu>Treść wpisu: <textarea name=treść rows=14></textarea></label>
+<input type=hidden name=wątek value={nr_watku} />
+<input type=submit />
+</form>
 <footer><nav><a href=/ >Strona główna</a></nav></footer>
