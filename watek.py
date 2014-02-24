@@ -2,6 +2,7 @@
 
 import sqlite3, narzedzia
 from time import strftime, strptime
+from narzedzia import szablon
 
 class Watek:
 	def wpisy(self, nr_watku):
@@ -47,9 +48,9 @@ class Watek:
 		return self.szablon_brak
 
 	def __init__(self):
-		self.baza = sqlite3.connect('forum.sqlite')
+		self.baza = sqlite3.connect('/home/forumopery/forum.sqlite')
 		self.k = self.baza.cursor()
-		self.szablon = open('szablony/wątek.html').read()
-		self.szablon_wpisu = open('szablony/wątek-wpis.html').read()
-		self.szablon_zamkniety = open('szablony/wątek-zamknięty.html').read()
-		self.szablon_brak = open('szablony/wątek-brak.html').read()
+		self.szablon = szablon('wątek')
+		self.szablon_wpisu = szablon('wątek-wpis')
+		self.szablon_zamkniety = szablon('wątek-zamknięty')
+		self.szablon_brak = szablon('wątek-brak')

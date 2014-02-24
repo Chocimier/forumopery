@@ -24,9 +24,9 @@ class Szukaj:
 		return szablon_brak
 
 	def __init__(self):
-		self.baza = sqlite3.connect('forum.sqlite')
+		self.baza = sqlite3.connect('/home/forumopery/forum.sqlite')
 		self.k = self.baza.cursor()
-		self.szablon = open('szablony/dział.html').read()
-		self.szablon_watku = open('szablony/dział-wątek.html').read()
-		self.szablon_brak = open('szablony/dział-brak.html').read()
+		self.szablon = open('szablony/dział').read()
+		self.szablon_watku = open('szablony/dział-wątek').read()
+		self.szablon_brak = open('szablony/dział-brak').read()
 		return None

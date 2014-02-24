@@ -1,6 +1,7 @@
 # coding: utf8
 
 import sqlite3
+from narzedzia import szablon
 
 class Glowna:
 	def dzialy(self):
@@ -19,7 +20,7 @@ class Glowna:
 		return self.oHTMLowany()
 
 	def __init__(self):
-		self.baza = sqlite3.connect('forum.sqlite')
+		self.baza = sqlite3.connect('/home/forumopery/forum.sqlite')
 		self.k = self.baza.cursor()
-		self.szablon = open('szablony/główna.html').read()
-		self.szablon_dzialu = open('szablony/główna-dział.html').read()
+		self.szablon = szablon('główna')
+		self.szablon_dzialu = szablon('główna-dział')
