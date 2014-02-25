@@ -14,7 +14,7 @@ format_czasu_w_bazie = '%Y%m%d%H%M%S'
 def szablon(nazwa):
 	return open(katalogSzablonow + nazwa + '.html').read()
 
-def wiarygodny(uzytkownik, haslo):
+def wiarygodny(uzytkownik, skrot_hasla):
 	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')
 	k = baza.cursor()
 
@@ -25,7 +25,7 @@ def wiarygodny(uzytkownik, haslo):
 
 	if odpowiedz == None or not odpowiedz[1]:
 		return (False, 'Nie zarejestrowałeś się, {}'.format(uzytkownik))
-	elif odpowiedz[1] != haslo:
+	elif odpowiedz[1] != skrot_hasla:
 		return (False, 'Niepoprawne hasło')
 	else:
 		return (True, '')
@@ -44,3 +44,25 @@ def dodajWpis(uzytkownik, tresc, nr_watku):
 
 def oprawWpis(tresc):
 	return tresc.replace('<', '&lt;').replace('>', '&gt;')
+
+def wolnaKsywka(uzytkownik):
+	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')
+	k = baza.cursor()
+
+	zapytanie = 'SELECT ksywka FROM uzytkownicy WHERE ksywka = ?'
+	zmienne = (uzytkownik,)
+	k.execute(zapytanie, zmienne)
+	odpowiedz = k.fetchone()
+
+	return odpowiedz == None
+
+def niezarejestrowany(uzytkownik):
+	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')
+	k = baza.cursor()
+
+	zapytanie = 'SELECT zarejestrowany FROM uzytkownicy WHERE ksywka = ?'
+	zmienne = (uzytkownik,)
+	k.execute(zapytanie, zmienne)
+	odpowiedz = k.fetchone()
+
+	return False if odpowiedz==None else not odpowiedz[0]

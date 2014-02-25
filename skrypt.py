@@ -7,6 +7,7 @@ from watek import Watek
 from dzial import Dzial
 from glowna import Glowna
 from nowywpis import NowyWpis
+from rejestracja import Rejestracja
 
 def liczba(napis):
 	try:
@@ -29,12 +30,20 @@ def podstrona(adres):
 		return Watek().strona(liczba(zapytanie))
 	elif sciezka == '/dział.py':
 		return Dzial().strona(liczba(zapytanie))
+	elif sciezka == '/rejestracja.py':
+		return Rejestracja().strona({})
 	else:
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
-@post('/nowywpis.py')
-def glowna():
-	return NowyWpis().strona(request.forms)
+@post('/<adres>')
+def post(adres):
+	sciezka = request.environ.get('PATH_INFO')
+	if sciezka == '/nowywpis.py':
+		return NowyWpis().strona(request.forms)
+	elif sciezka == '/rejestracja.py':
+		return Rejestracja().strona(request.forms)
+	else:
+		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
 
 application = default_app()
