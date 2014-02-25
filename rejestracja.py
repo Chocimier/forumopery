@@ -6,7 +6,7 @@ from bottle import redirect
 from hashlib import sha384
 
 class Rejestracja:
-	def rejestruj(uzytkownik, skrot_hasla):
+	def rejestruj(self, uzytkownik, skrot_hasla):
 		zapytanie = 'INSERT INTO uzytkownicy(ksywka, haslo, zarejestrowany) VALUES (?, ?, ?);'
 		zmienne = (uzytkownik, skrot_hasla, 1)
 		self.k.execute(zapytanie, zmienne)
@@ -31,7 +31,22 @@ class Rejestracja:
 			self.rejestruj(uzytkownik, skrot_hasla)
 			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Zarejestrowałeś się jako {}. Zapraszam <a href=/>do dyskusji</a>.'.format(uzytkownik))
 		elif niezarejestrowany(uzytkownik):
-			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Rejestracja pod ksywkami z forum My Opera nie jest obecnie możliwa.')
+			#return self.szablon.format(ksywka=uzytkownik, wiadomosc='Rejestracja pod ksywkami z forum My Opera nie jest obecnie możliwa.')
+			try:
+				kod = dane['kod'].decode('utf8')
+			except KeyError:
+				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Próbujesz zarejestrować się pod ksywką z My Opera. Podaj, proszę, kod uwierzytalniający.')
+			if kod == '':
+				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Próbujesz zarejestrować się pod ksywką z My Opera. Podaj, proszę, kod uwierzytalniający.')
+			zapytanie = 'INSERT INTO odzyskiwanie(ksywka, haslo, kod) VALUES (?, ?, ?);'
+			zmienne = (uzytkownik, skrot_hasla, kod)
+			try:
+				self.k.execute(zapytanie, zmienne)
+				self.baza.commit()
+			except sqlite3.IntegrityError:
+				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Ktoś już podał taki kod uwierzytelniający. Podaj, proszę, inny.')
+			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Zarejestrowałeś się jako {}. Nie zapomnij podać kodu <input value="((uw:{}))"></input>w swoim opisie na My Opera. Uwierzytelnienie Ciebie Może trwać od kilku minut do doby.'.format(uzytkownik, kod))
+
 		else:
 			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Ksywka {} jest już zajęta.'.format(uzytkownik))
 
