@@ -19,7 +19,6 @@ def liczba(napis):
 @route('/')
 def glowna():
 	sciezka = request.environ.get('PATH_INFO')
-	zapytanie = request.environ.get('QUERY_STRING')
 	if sciezka == '/':
 		return Glowna().strona()
 
