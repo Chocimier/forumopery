@@ -15,8 +15,11 @@ class NowyWpis:
 		if swoj:
 			tresc = oprawWpis(dane['treść'].decode('utf8'))
 			nr_watku = int(dane['wątek'])
-			dodajWpis(uzytkownik, tresc, nr_watku)
-			redirect('/wątek.py?{}'.format(nr_watku))
+			dodano, dlaczego_nie_dodano = dodajWpis(uzytkownik, tresc, nr_watku)
+			if dodano:
+				redirect('/wątek.py?{}'.format(nr_watku))
+			else:
+				return dlaczego_nie_dodano
 		else:
 			return dlaczego_wrog
 

@@ -34,13 +34,25 @@ def dodajWpis(uzytkownik, tresc, nr_watku):
 	# tu się powinno sprawdzać hasło, chyba
 	baza = sqlite3.connect('/home/forumopery/forum.sqlite')
 	k = baza.cursor()
-	zapytanie = 'INSERT INTO wpisy(autor, tresc, nr_watku, data_wyslania) VALUES (?, ?, ?, ?);'
+
+	zapytanie = 'SELECT zamkniety FROM watki WHERE nr_watku = ? ;'
 	zmienne = (uzytkownik, tresc, nr_watku, int(time.strftime(format_czasu_w_bazie)))
-
-	print(zapytanie, zmienne)
-
 	k.execute(zapytanie, zmienne)
-	baza.commit()
+	odpowiedz = k.fetchone()
+	if odpowiedz == None:
+		wynik = (False, 'nie ma takiego wątku')
+	elif odpowiedz[0] == 1:
+		wynik = (False, 'wątek jest zamknięty')
+	else:
+		zapytanie = 'INSERT INTO wpisy(autor, tresc, nr_watku, data_wyslania) VALUES (?, ?, ?, ?);'
+		zmienne = (uzytkownik, tresc, nr_watku, int(time.strftime(format_czasu_w_bazie)))
+
+		print(zapytanie, zmienne)
+
+		k.execute(zapytanie, zmienne)
+		baza.commit()
+		wynik = (True, 'dodano wpis')
+	return wynik
 
 def oprawWpis(tresc):
 	return tresc.replace('<', '&lt;').replace('>', '&gt;')
