@@ -9,6 +9,7 @@ from glowna import Glowna
 from nowywpis import NowyWpis
 from rejestracja import Rejestracja
 from wnioski import Wnioski
+from nowywatek import NowyWatek
 
 def liczba(napis):
 	try:
@@ -34,6 +35,8 @@ def podstrona(adres):
 		return Rejestracja().strona({})
 	elif sciezka == '/wnioski':
 		return Wnioski().strona()
+	elif sciezka == '/nowy_wątek.py':
+		return NowyWatek().strona(request.query.dzial)
 	else:
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 

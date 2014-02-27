@@ -22,7 +22,7 @@ class Dzial:
 		for nr_watku, tytul, zamknieto in self.watki(nr_dzialu):
 			oznaczenie_zamknieto = '[zamknięty] ' if zamknieto else ''
 			watki += self.szablon_watku.format(nr=nr_watku, tytul=tytul.encode('utf8'), zamknieto=oznaczenie_zamknieto)
-		return self.szablon.format(nazwa=nazwa_dzialu.encode('utf8'), watki=watki)
+		return self.szablon.format(nazwa=nazwa_dzialu.encode('utf8'), watki=watki, nr_dzialu=nr_dzialu)
 
 	def strona(self, nr_dzialu):
 		zapytanie = 'SELECT nr_dzialu FROM dzialy WHERE nr_dzialu=?;'
