@@ -6,7 +6,7 @@ from narzedzia import szablon
 
 class Watek:
 	def wpisy(self, nr_watku):
-		zapytanie = 'SELECT autor, tresc, data_wyslania FROM wpisy WHERE nr_watku=? ORDER BY data_wyslania ASC;'
+		zapytanie = 'SELECT autor, tresc, data_wyslania, nr_wpisu FROM wpisy WHERE nr_watku=? ORDER BY data_wyslania ASC;'
 		zmienne = (nr_watku,)
 		self.k.execute(zapytanie, zmienne)
 		return self.k.fetchall()
@@ -28,11 +28,11 @@ class Watek:
 		nr_dzialu, nazwa_dzialu = self.oDzialeWatku(nr_watku)
 		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia)
 		wpisy = ""
-		for autor, tresc, czas_wyslania in self.wpisy(nr_watku):
+		for autor, tresc, czas_wyslania, nr_wpisu in self.wpisy(nr_watku):
 			czas_krotka = strptime(str(czas_wyslania), narzedzia.format_czasu_w_bazie)
 			czas_ladnie = strftime('{dzien[%w]} %d {miesiac[%m]} %Y o %H<sup class=minuta>%M</sup>', czas_krotka).format(miesiac=narzedzia.odmienione_miesiace, dzien=narzedzia.odmienione_dni)
 			czas_iso = strftime('%Y-%m-%d %H:%M', czas_krotka)
-			wpisy += self.szablon_wpisu.format(autor=autor.encode('utf8'), tresc=tresc.encode('utf8'), czas_iso=czas_iso, czas_ladnie=czas_ladnie)
+			wpisy += self.szablon_wpisu.format(autor=autor.encode('utf8'), tresc=tresc.encode('utf8'), czas_iso=czas_iso, czas_ladnie=czas_ladnie, nr_wpisu=nr_wpisu)
 		return self.szablon.format(tytul=tytul.encode('utf8'), nazwa_dzialu=nazwa_dzialu.encode('utf8'), nr_dzialu=nr_dzialu, wpisy=wpisy, zamkniety=oZamknieciu, nr_watku=nr_watku)
 
 	def strona(self, nr_watku):
