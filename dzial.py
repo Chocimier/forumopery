@@ -11,7 +11,7 @@ class Dzial:
 		return self.k.fetchone()[0]
 
 	def watki(self, nr_dzialu):
-		zapytanie = 'SELECT nr_watku, tytul, zamknieto FROM watki WHERE nr_dzialu=? ORDER BY nr_watku DESC;'
+		zapytanie = 'SELECT nr_watku, tytul, zamknieto, wyswietlen FROM watki WHERE nr_dzialu=? ORDER BY nr_watku DESC;'
 		zmienne = (nr_dzialu,)
 		self.k.execute(zapytanie, zmienne)
 		return self.k.fetchall()
@@ -19,9 +19,9 @@ class Dzial:
 	def oHTMLowany(self, nr_dzialu):
 		nazwa_dzialu = self.nazwaDzialu(nr_dzialu)
 		watki = ""
-		for nr_watku, tytul, zamknieto in self.watki(nr_dzialu):
+		for nr_watku, tytul, zamknieto, wyswietlen in self.watki(nr_dzialu):
 			oznaczenie_zamknieto = '[zamknięty] ' if zamknieto else ''
-			watki += self.szablon_watku.format(nr=nr_watku, tytul=tytul.encode('utf8'), zamknieto=oznaczenie_zamknieto)
+			watki += self.szablon_watku.format(nr=nr_watku, tytul=tytul.encode('utf8'), zamknieto=oznaczenie_zamknieto, wyswietlen=wyswietlen)
 		return self.szablon.format(nazwa=nazwa_dzialu.encode('utf8'), watki=watki, nr_dzialu=nr_dzialu)
 
 	def strona(self, nr_dzialu):
