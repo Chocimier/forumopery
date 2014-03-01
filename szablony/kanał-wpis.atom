@@ -1,0 +1,10 @@
+	<entry>
+		<author><name>{autor}</name></author>
+		<title>{tytul}</title>
+		<updated>{czas_iso}</updated>
+		<id>{wyroznik}</id>
+		<link rel="alternate" type="text/html" href="{strona}"/>
+		<content type="xhtml">
+{tresc}
+		</content>
+	</entry>

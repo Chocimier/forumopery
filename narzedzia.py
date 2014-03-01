@@ -10,9 +10,10 @@ odmienione_miesiace = ('',
 odmienione_dni = ('w niedzielę', 'w poniedziałek', 'we wtorek', 'w środę', 'we czwartek', 'w piątek', 'w sobotę')
 katalogSzablonow = '/home/forumopery/forumopery/szablony/'
 format_czasu_w_bazie = '%Y%m%d%H%M%S'
+format_czasu_iso = '%Y-%m-%dT%H:%M:%SZ'
 
-def szablon(nazwa):
-	return open(katalogSzablonow + nazwa + '.html').read()
+def szablon(nazwa, rozszerzenie='html'):
+	return open(katalogSzablonow + nazwa + '.' + rozszerzenie).read()
 
 def wiarygodny(uzytkownik, skrot_hasla):
 	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')

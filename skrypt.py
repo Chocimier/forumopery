@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 #coding: utf8
 
-from bottle import default_app, route, request, post
+from bottle import default_app, route, request, post, response
 
 from watek import Watek
 from dzial import Dzial
@@ -10,6 +10,7 @@ from nowywpis import NowyWpis
 from rejestracja import Rejestracja
 from wnioski import Wnioski
 from nowywatek import NowyWatek
+from kanal import Kanal
 
 def liczba(napis):
 	try:
@@ -37,6 +38,9 @@ def podstrona(adres):
 		return Wnioski().strona()
 	elif sciezka == '/nowy_wątek.py':
 		return NowyWatek().strona(request.query.dzial)
+	elif sciezka == '/wpisy.atom':
+		response.content_type='application/atom+xml'
+		return Kanal().strona(request.environ.get('PATH_INFO'))
 	else:
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
