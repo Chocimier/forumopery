@@ -18,3 +18,40 @@ textarea {
 .liczba {
 	text-align: right;
 }
+
+body {
+	background-color: #fff;
+	color: #000;
+}
+
+article header {
+	background-color: #ade;
+	color:#000;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	border: thin solid black;
+	border-width: 0 thin;
+}
+
+tr:nth-child(odd) {
+	background-color: #ddd;
+}
+
+.cite {
+	margin-bottom: 0;
+	background-color: #ddd;
+}
+.bbquote > p {
+	margin-top: 0;
+}
+
+.bbquote {
+	margin: 0;
+	padding-left: 30px;
+	border: thin solid #ddd;
+}
