@@ -32,7 +32,7 @@ def wiarygodny(uzytkownik, skrot_hasla):
 		return (True, '')
 
 def oprawWpis(tresc):
-	return tresc.replace('<', '&lt;').replace('>', '&gt;')
+	return tresc.replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>')
 
 def wolnaKsywka(uzytkownik):
 	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')
