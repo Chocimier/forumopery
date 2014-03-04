@@ -11,6 +11,7 @@ from rejestracja import Rejestracja
 from wnioski import Wnioski
 from nowywatek import NowyWatek
 from kanal import Kanal
+from szukaj import Szukaj
 
 def liczba(napis):
 	try:
