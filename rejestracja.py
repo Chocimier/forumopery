@@ -2,7 +2,6 @@
 
 import sqlite3
 from narzedzia import wolnaKsywka, niezarejestrowany, szablon
-from bottle import redirect
 from hashlib import sha384
 
 class Rejestracja:
@@ -16,14 +15,14 @@ class Rejestracja:
 		try:
 			uzytkownik = dane['ksywka'].decode('utf8')
 		except KeyError:
-			return self.szablon.format(ksywka='', wiadomosc='Miło, że tu przybyłeś.')
+			return self.szablon.format(ksywka='', wiadomosc='')
 		try:
 			haslo = dane['hasło'].decode('utf8')
 			skrot_hasla = sha384(haslo).hexdigest()
 		except KeyError:
 			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Nie podałeś hasła')
 
-		if uzytkownik == '': return self.szablon.format(ksywka='', wiadomosc='Miło, że tu przybyłeś.')
+		if uzytkownik == '': return self.szablon.format(ksywka='', wiadomosc='')
 		if haslo == '': return self.szablon.format(ksywka=uzytkownik, wiadomosc='Nie podałeś hasła')
 		del haslo
 
@@ -31,22 +30,7 @@ class Rejestracja:
 			self.rejestruj(uzytkownik, skrot_hasla)
 			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Zarejestrowałeś się jako {}. Zapraszam <a href=/>do dyskusji</a>.'.format(uzytkownik))
 		elif niezarejestrowany(uzytkownik):
-			#return self.szablon.format(ksywka=uzytkownik, wiadomosc='Rejestracja pod ksywkami z forum My Opera nie jest obecnie możliwa.')
-			try:
-				kod = dane['kod'].decode('utf8')
-			except KeyError:
-				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Próbujesz zarejestrować się pod ksywką z My Opera. Podaj, proszę, kod uwierzytalniający.')
-			if kod == '':
-				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Próbujesz zarejestrować się pod ksywką z My Opera. Podaj, proszę, kod uwierzytalniający.')
-			zapytanie = 'INSERT INTO odzyskiwanie(ksywka, haslo, kod) VALUES (?, ?, ?);'
-			zmienne = (uzytkownik, skrot_hasla, kod)
-			try:
-				self.k.execute(zapytanie, zmienne)
-				self.baza.commit()
-			except sqlite3.IntegrityError:
-				return self.szablon.format(ksywka=uzytkownik, wiadomosc='Ktoś już podał taki kod uwierzytelniający. Podaj, proszę, inny.')
-			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Zarejestrowałeś się jako {}. Nie zapomnij podać kodu <input value="((uw:{}))"></input>w swoim opisie na My Opera. Uwierzytelnienie Ciebie Może trwać od kilku minut do doby.'.format(uzytkownik, kod))
-
+			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Próbujesz zarejestrować się pod ksywką z My Opera. Zamiast tego <a href="mailto:chocimir@t.pl">napisz mejl do zarządcy forum</a>, albo wymyśl sobie inną.')
 		else:
 			return self.szablon.format(ksywka=uzytkownik, wiadomosc='Ksywka {} jest już zajęta.'.format(uzytkownik))
 
