@@ -11,48 +11,71 @@ from rejestracja import Rejestracja
 from wnioski import Wnioski
 from nowywatek import NowyWatek
 from kanal import Kanal
-
-def liczba(napis):
-	try:
-		return int(napis)
-	except ValueError:
-		return -1
+from szukaj import Szukaj
 
 @route('/')
 def glowna():
-	sciezka = request.environ.get('PATH_INFO')
-	if sciezka == '/':
-		return Glowna().strona()
+	return Glowna().strona()
 
-@route('/<adres>')
-def podstrona(adres):
-	sciezka = request.environ.get('PATH_INFO')
-	zapytanie = request.environ.get('QUERY_STRING')
-	if sciezka == '/wątek.py':
-		return Watek().strona(liczba(zapytanie))
-	elif sciezka == '/dział.py':
-		return Dzial().strona(liczba(zapytanie))
-	elif sciezka == '/rejestracja.py':
-		return Rejestracja().strona({})
-	elif sciezka == '/wnioski':
-		return Wnioski().strona()
-	elif sciezka == '/nowy_wątek.py':
-		return NowyWatek().strona(request.query.dzial)
-	elif sciezka == '/wpisy.atom':
-		response.content_type='application/atom+xml'
-		return Kanal().strona(request.environ.get('PATH_INFO'))
-	else:
-		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+@route('/forum/<id_:int>/')
+@route('/forum/<id_:int>')
+def forum(id_):
+	return Dzial().strona(id_)
 
-@post('/<adres>')
-def post(adres):
+@route('/temat/<id_:int>/')
+@route('/temat/<id_:int>')
+def temat(id_):
+	return Watek().strona(id_)
+
+#nowy wątek
+@route('/forum/<id_dzialu:int>/nowy/')
+@route('/forum/<id_dzialu:int>/nowy')
+def nowy_temat(id_dzialu):
+	return NowyWatek().strona(id_dzialu)
+
+#nowa odpowiedź
+@post('/forum/<id_watku:int>/nowy/')
+@post('/forum/<id_watku:int>/nowy')
+def nowa_odpowiedz_post():
+	return NowyWpis().strona(request.forms)
+
+@route('/szukaj/')
+@route('/szukaj')
+def rejestracja():
+	return Szukaj().strona({})
+
+@route('/rejestracja/')
+@route('/rejestracja')
+def rejestracja():
+	return Rejestracja().strona({})
+
+#post
+@post('/rejestracja/')
+@post('/rejestracja')
+def rejestracja():
+	return Rejestracja().strona(request.forms)
+
+@route('/wpisy.atom')
+def rss_atom():
+	response.content_type='application/atom+xml'
+	return Kanal().strona(request.environ.get('PATH_INFO'))
+
+@route('/wnioski/')
+@route('/wnioski')
+def wnioski():
+	return Wnioski().strona()
+
+@route('/<adres:path>')
+def blad_404(adres):
 	sciezka = request.environ.get('PATH_INFO')
-	if sciezka == '/nowywpis.py':
-		return NowyWpis().strona(request.forms)
-	elif sciezka == '/rejestracja.py':
-		return Rejestracja().strona(request.forms)
-	else:
-		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+	#TODO: użyć szablonu 404.html
+	return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
+@post('/<adres:path>')
+def blad_404_post(adres):
+	sciezka = request.environ.get('PATH_INFO')
+	#TODO: użyć szablonu 404.html
+	return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
 
 application = default_app()
