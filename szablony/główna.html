@@ -1,20 +1,22 @@
 <!DOCTYPE HTML>
-<title>Polskie forum Opery</title>
-<meta charset=utf8>
-<link href=/zasoby/arkusz.css rel=stylesheet>
-<link href=/wpisy.atom rel=alternate title="Najnowsze wpisy" type=application/atom+xml />
-<p class=powiadomienie>To forum jest kopią forum polskiej społeczności Opery, pierwotnie dostępnego w serwisie my.opera.com.</p>
-<p class=powiadomienie>Nowe wpisy można śledzić za pomocą <a href=/wpisy.atom>kanału wiadomości</a>.</p>
+<head>
+	<title>Polskie forum Opery</title>
+	<meta charset="utf-8">
+	<link href="/zasoby/arkusz.css" rel="stylesheet">
+	<link href="/wpisy.atom" rel=alternate title="Najnowsze wpisy" type="application/atom+xml" />
+</head>
+<body>
+
+{naglowek}
+
 <ul>
-<h2>Działy</h2>
-{dzialy}
+	<h2>Działy</h2>
+	{dzialy}
 </ul>
+
 <ul>
-<h2>Ostatnie wpisy</h2>
-{najnowsze}
+	<h2>Ostatnie wpisy</h2>
+	{najnowsze}
 </ul>
-<a href=/rejestracja.py>Rejestracja</a>
-<form action=/szukaj.py method=get>
-<input type=text name=q />
-<input type=submit />
-</form>
+
+</body>
