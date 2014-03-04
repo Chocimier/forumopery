@@ -22,11 +22,45 @@ textarea {
 body {
 	background-color: #fff;
 	color: #000;
+	max-width: 800px;
+	margin: 0 auto;
+	font: 12px/16px "Helvetica Neue", "Arial", sans-serif;
+}
+
+body header a {
+	text-decoration: none;
+}
+
+h1 {
+	color: #9c9e9f;
+	font: 46px sans;
+}
+
+h1 span {
+	color: #cc0f16;
+	font-weight: bold;
+	font-size: larger;
+}
+
+body header form {
+	float: right;
+}
+
+article {
+	border: 1px solid #ccc;
+	padding: 5px;
+	margin: 5px 0;
 }
 
 article header {
-	background-color: #ade;
-	color:#000;
+	background-color: #9c9e9f;
+	color: #fff;
+	margin: -5px;
+	padding: 2px;
+}
+
+article:first-child header {
+  background-color: #cc0f16;
 }
 
 table {
