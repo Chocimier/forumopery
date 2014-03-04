@@ -25,7 +25,7 @@ class Glowna:
 			czas_ladnie = strftime('{dzien[%w]} %d {miesiac[%m]} %Y o %H<sup class=minuta>%M</sup>', czas_krotka).format(miesiac=odmienione_miesiace, dzien=odmienione_dni)
 			czas_iso = strftime('%Y-%m-%d %H:%M', czas_krotka)
 			najnowsze += self.szablon_wpisu.format(autor=autor, czas_iso=czas_iso, czas_ladnie=czas_ladnie, tresc=tresc.encode('utf8'), nr_watku=nr_watku, nr_wpisu=nr_wpisu)
-		return self.szablon.format(dzialy=dzialy, najnowsze=najnowsze)
+		return self.szablon.format(naglowek=szablon('nagłówek'), dzialy=dzialy, najnowsze=najnowsze)
 
 
 	def strona(self):
