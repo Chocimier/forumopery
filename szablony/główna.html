@@ -7,17 +7,7 @@
 </head>
 <body>
 
-<header>
-	<a href="http://forumopery.pythonanywhere.com/">
-		<h1>
-			<span>O</span>
-			Archiwum polskiego forum Opery
-		</h1>
-	</a>
-</header>
-
-<p class=powiadomienie>To forum jest kopią forum polskiej społeczności Opery, pierwotnie dostępnego w serwisie my.opera.com.</p>
-<p class=powiadomienie>Nowe wpisy można śledzić za pomocą <a href="/wpisy.atom">kanału wiadomości</a>.</p>
+{naglowek}
 
 <ul>
 	<h2>Działy</h2>
@@ -28,11 +18,5 @@
 	<h2>Ostatnie wpisy</h2>
 	{najnowsze}
 </ul>
-
-<a href="/rejestracja.py">Rejestracja</a>
-<form action="/szukaj.py" method=get>
-	<input type=text name=q />
-	<input type=submit />
-</form>
 
 </body>
