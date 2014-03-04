@@ -38,6 +38,8 @@ def podstrona(adres):
 		return Wnioski().strona()
 	elif sciezka == '/nowy_wątek.py':
 		return NowyWatek().strona(request.query.dzial)
+	elif sciezka == '/szukaj.py':
+		return Szukaj().strona(request.query.q)
 	elif sciezka == '/wpisy.atom':
 		response.content_type='application/atom+xml'
 		return Kanal().strona(request.environ.get('PATH_INFO'))
