@@ -11,6 +11,7 @@ from rejestracja import Rejestracja
 from nowywatek import NowyWatek
 from kanal import Kanal
 from szukaj import Szukaj
+from wpis import Wpis
 
 @route('/')
 def glowna():
@@ -24,6 +25,8 @@ def podstrona(adres, nr=0):
 		return Watek().strona(nr)
 	elif sciezka.startswith('/dział/'):
 		return Dzial().strona(nr)
+	elif sciezka.startswith('/wpis/'):
+		return Wpis().strona(nr)
 	elif sciezka == '/rejestracja':
 		return Rejestracja().strona({})
 	elif sciezka == '/nowy_wątek':
