@@ -4,13 +4,13 @@
 <link href=/zasoby/arkusz.css rel=stylesheet>
 <link href=/wpisy.atom rel=alternate title="Najnowsze wpisy" type=application/atom+xml />
 <h1>{tytul}</h1>
-<span class=działNadrzędny>w <a href=dział.py?{nr_dzialu}>dziale {nazwa_dzialu}</a></span>
+<span class=działNadrzędny>w <a href=dział/{nr_dzialu}>dziale {nazwa_dzialu}</a></span>
 {zamkniety}
 <nav><a href=/ >Strona główna</a></nav>
 <main>
 {wpisy}
 </main>
-<form action=nowywpis.py method=post>
+<form action=/nowywpis method=post>
 <label>Ksywka: <input type=text name=ksywka /></label> <label>Hasło: <input type=password name=hasło /></label>
 <label class=etykietaTreściWpisu>Treść wpisu: <textarea name=treść rows=14></textarea></label>
 <input type=hidden name=wątek value={nr_watku} />

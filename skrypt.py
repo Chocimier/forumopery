@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 #coding: utf8
 
-from bottle import default_app, route, request, post, response
+from bottle import default_app, route, request, post, response, abort
 
 from watek import Watek
 from dzial import Dzial
@@ -13,48 +13,46 @@ from nowywatek import NowyWatek
 from kanal import Kanal
 from szukaj import Szukaj
 
-def liczba(napis):
-	try:
-		return int(napis)
-	except ValueError:
-		return -1
-
 @route('/')
 def glowna():
-	sciezka = request.environ.get('PATH_INFO')
-	if sciezka == '/':
-		return Glowna().strona()
+	return Glowna().strona()
 
 @route('/<adres>')
-def podstrona(adres):
+@route('/<adres>/<nr:int>')
+def podstrona(adres, nr=0):
 	sciezka = request.environ.get('PATH_INFO')
-	zapytanie = request.environ.get('QUERY_STRING')
-	if sciezka == '/wątek.py':
-		return Watek().strona(liczba(zapytanie))
-	elif sciezka == '/dział.py':
-		return Dzial().strona(liczba(zapytanie))
-	elif sciezka == '/rejestracja.py':
+	if sciezka.startswith('/wątek/'):
+		return Watek().strona(nr)
+	elif sciezka.startswith('/dział/'):
+		return Dzial().strona(nr)
+	elif sciezka == '/rejestracja':
 		return Rejestracja().strona({})
 	elif sciezka == '/wnioski':
 		return Wnioski().strona()
-	elif sciezka == '/nowy_wątek.py':
+	elif sciezka == '/nowy_wątek':
 		return NowyWatek().strona(request.query.dzial)
-	elif sciezka == '/szukaj.py':
+	elif sciezka == '/szukaj':
 		return Szukaj().strona(request.query.q)
 	elif sciezka == '/wpisy.atom':
 		response.content_type='application/atom+xml'
-		return Kanal().strona(request.environ.get('PATH_INFO'))
+		return Kanal().strona(sciezka)
 	else:
+		abort(404, 'Nie ma takiej strony')
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
+@route('/zasoby/<adres>')
+def zasoby(adres):
+	return static_file(adres, root='/home/forumopery/forumopery/zasoby/')
 
 @post('/<adres>')
 def post(adres):
 	sciezka = request.environ.get('PATH_INFO')
-	if sciezka == '/nowywpis.py':
+	if sciezka == '/nowywpis':
 		return NowyWpis().strona(request.forms)
-	elif sciezka == '/rejestracja.py':
+	elif sciezka == '/rejestracja':
 		return Rejestracja().strona(request.forms)
 	else:
+		abort(404, 'Nie ma takiej strony')
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
 

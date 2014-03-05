@@ -50,7 +50,7 @@ class NowyWpis:
 				nr_watku = int(dane['wątek'])
 			dodano, dlaczego_nie_dodano = self.dodajWpis(uzytkownik, tresc, nr_watku)
 			if dodano:
-				redirect('/wątek.py?{}'.format(nr_watku))
+				redirect('/wątek/{}'.format(nr_watku))
 			else:
 				return dlaczego_nie_dodano
 		else:
