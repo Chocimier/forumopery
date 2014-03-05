@@ -1,0 +1,37 @@
+*** skrypt.py~	2014-03-05 19:22:06.000000000 +0100
+--- skrypt.py	2014-03-05 19:26:38.000000000 +0100
+***************
+*** 2,7 ****
+--- 2,8 ----
+  #coding: utf8
+
+  from bottle import default_app, route, request, post, response, abort
++ from bottle import run, static_file
+
+  from watek import Watek
+  from dzial import Dzial
+***************
+*** 40,45 ****
+--- 41,50 ----
+  		abort(404, 'Nie ma takiej strony')
+  		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
++ @route('/zasoby/<adres>')
++ def zasoby(adres):
++ 	return static_file(adres, root='/home/forumopery/forumopery/zasoby/')
++
+  @post('/<adres>')
+  def post(adres):
+  	sciezka = request.environ.get('PATH_INFO')
+***************
+*** 52,55 ****
+  		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
+
+! application = default_app()
+--- 57,61 ----
+  		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
+
+
+! #application = default_app()
+! run(host='localhost', port=8002, debug=True)
