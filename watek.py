@@ -26,7 +26,7 @@ class Watek:
 	def oHTMLowany(self, nr_watku):
 		tytul, zamknieto, powod_zamkniecia = self.oWatku(nr_watku)
 		nr_dzialu, nazwa_dzialu = self.oDzialeWatku(nr_watku)
-		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia)
+		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia and powod_zamkniecia.encode('utf8'))
 		wpisy = ""
 		for autor, tresc, czas_wyslania, nr_wpisu in self.wpisy(nr_watku):
 			czas_krotka = strptime(str(czas_wyslania), format_czasu_w_bazie)

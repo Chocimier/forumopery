@@ -1,6 +1,6 @@
 #coding: utf8
 
-import sqlite3
+import sqlite3, bbcode
 
 odmienione_miesiace = ('',
 		'stycznia', 'lutego', 'marca',
@@ -32,7 +32,61 @@ def wiarygodny(uzytkownik, skrot_hasla):
 		return (True, '')
 
 def oprawWpis(tresc):
-	return tresc.replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>')
+	def prosty(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if wnętrze:
+			return '<{znacznik}>{wnętrze}</{znacznik}>'.format(**locals())
+		else:
+			return ''
+
+	def barwa(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty and wnętrze:
+			return '<span style="color:{argumenty[znacznik]};">{wnętrze}</span>'.format(**locals())
+		else:
+			return wnętrze
+
+	def łącze(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty:
+			adres = argumenty[znacznik]
+			wnętrze = wnętrze or adres
+			return '<a href="{adres}">{wnętrze}</a>'.format(**locals())
+		else:
+			return wnętrze
+
+	def obraz(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty and wnętrze:
+			adres = argumenty[znacznik]
+			return '<img src="{adres}" alt="{wnętrze}" />'.format(**locals())
+		else:
+			return wnętrze
+
+	def cytat(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty:
+			autor = argumenty[znacznik]
+			wynik = '<p>{autor} napisał(a):</p><blockquote>{wnętrze}</blockquote>'
+		elif wnętrze:
+			wynik = '<blockquote>{wnętrze}</blockquote>'
+		else:
+			wynik = ''
+		return wynik.format(**locals())
+
+	def kod(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+		if wnętrze:
+			return '<pre>{wnętrze}</pre>'.format(**locals())
+		else:
+			return ''
+
+	a = bbcode.Parser(install_defaults=False, replace_cosmetic=False)
+	a.add_formatter('b', prosty)
+	a.add_formatter('i', prosty)
+	a.add_formatter('u', prosty)
+	a.add_formatter('s', prosty)
+	a.add_formatter('color', barwa)
+	a.add_formatter('url', łącze)
+	a.add_formatter('img', obraz)
+	a.add_formatter('quote', cytat)
+	a.add_formatter('code', kod)
+
+	return (a.format(tresc))
 
 def wolnaKsywka(uzytkownik):
 	baza = sqlite3.connect('/home/forumopery/forowicze.sqlite')
