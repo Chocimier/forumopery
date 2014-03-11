@@ -32,46 +32,46 @@ def wiarygodny(uzytkownik, skrot_hasla):
 		return (True, '')
 
 def oprawWpis(tresc):
-	def prosty(znacznik, wnętrze, argumenty, rodzic, otoczenie):
-		if wnętrze:
-			return '<{znacznik}>{wnętrze}</{znacznik}>'.format(**locals())
+	def prosty(znacznik, wnetrze, argumenty, rodzic, otoczenie):
+		if wnetrze:
+			return '<{znacznik}>{wnetrze}</{znacznik}>'.format(**locals())
 		else:
 			return ''
 
-	def barwa(znacznik, wnętrze, argumenty, rodzic, otoczenie):
-		if znacznik in argumenty and wnętrze:
-			return '<span style="color:{argumenty[znacznik]};">{wnętrze}</span>'.format(**locals())
+	def barwa(znacznik, wnetrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty and wnetrze:
+			return '<span style="color:{argumenty[znacznik]};">{wnetrze}</span>'.format(**locals())
 		else:
-			return wnętrze
+			return wnetrze
 
-	def łącze(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+	def lacze(znacznik, wnetrze, argumenty, rodzic, otoczenie):
 		if znacznik in argumenty:
 			adres = argumenty[znacznik]
-			wnętrze = wnętrze or adres
-			return '<a href="{adres}">{wnętrze}</a>'.format(**locals())
+			wnetrze = wnetrze or adres
+			return '<a href="{adres}">{wnetrze}</a>'.format(**locals())
 		else:
-			return wnętrze
+			return wnetrze
 
-	def obraz(znacznik, wnętrze, argumenty, rodzic, otoczenie):
-		if znacznik in argumenty and wnętrze:
+	def obraz(znacznik, wnetrze, argumenty, rodzic, otoczenie):
+		if znacznik in argumenty and wnetrze:
 			adres = argumenty[znacznik]
-			return '<img src="{adres}" alt="{wnętrze}" />'.format(**locals())
+			return '<img src="{adres}" alt="{wnetrze}" />'.format(**locals())
 		else:
-			return wnętrze
+			return wnetrze
 
-	def cytat(znacznik, wnętrze, argumenty, rodzic, otoczenie):
+	def cytat(znacznik, wnetrze, argumenty, rodzic, otoczenie):
 		if znacznik in argumenty:
 			autor = argumenty[znacznik]
-			wynik = '<p>{autor} napisał(a):</p><blockquote>{wnętrze}</blockquote>'
-		elif wnętrze:
-			wynik = '<blockquote>{wnętrze}</blockquote>'
+			wynik = '<p>{autor} napisał(a):</p><blockquote>{wnetrze}</blockquote>'
+		elif wnetrze:
+			wynik = '<blockquote>{wnetrze}</blockquote>'
 		else:
 			wynik = ''
 		return wynik.format(**locals())
 
-	def kod(znacznik, wnętrze, argumenty, rodzic, otoczenie):
-		if wnętrze:
-			return '<pre>{wnętrze}</pre>'.format(**locals())
+	def kod(znacznik, wnetrze, argumenty, rodzic, otoczenie):
+		if wnetrze:
+			return '<pre>{wnetrze}</pre>'.format(**locals())
 		else:
 			return ''
 
@@ -81,7 +81,7 @@ def oprawWpis(tresc):
 	a.add_formatter('u', prosty)
 	a.add_formatter('s', prosty)
 	a.add_formatter('color', barwa)
-	a.add_formatter('url', łącze)
+	a.add_formatter('url', lacze)
 	a.add_formatter('img', obraz)
 	a.add_formatter('quote', cytat)
 	a.add_formatter('code', kod)
