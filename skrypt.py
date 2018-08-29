@@ -21,6 +21,7 @@ def glowna():
 @route('/<adres>/<nr:int>')
 def podstrona(adres, nr=0):
 	sciezka = request.environ.get('PATH_INFO')
+	pelny_adres = request.url
 	if sciezka.startswith('/wątek/'):
 		return Watek().strona(nr)
 	elif sciezka.startswith('/dział/'):
@@ -35,7 +36,7 @@ def podstrona(adres, nr=0):
 		return Szukaj().strona(request.query.q)
 	elif sciezka == '/wpisy.atom':
 		response.content_type='application/atom+xml'
-		return Kanal().strona(sciezka)
+		return Kanal().strona(sciezka, pelny_adres)
 	else:
 		abort(404, 'Nie ma takiej strony')
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
