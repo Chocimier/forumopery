@@ -1,7 +1,7 @@
 #coding: utf8
 
 import sqlite3
-from narzedzia import szablon, format_czasu_w_bazie, format_czasu_iso
+from narzedzia import zencjuj, szablon, format_czasu_w_bazie, format_czasu_iso
 from time import strptime, strftime
 
 class Kanal:
@@ -21,10 +21,10 @@ class Kanal:
 		for nr_watku, tresc, autor, data_wyslania, nr_wpisu in self.najnowsze():
 			czas_krotka = strptime(str(data_wyslania), format_czasu_w_bazie)
 			czas_iso = strftime(format_czasu_iso, czas_krotka)
-			adres_wpisu = 'http://forumopery.pythonanywhere.com/wątek/{}#{}'.format(nr_watku, nr_wpisu)
+			adres_wpisu = 'http://forumopery.pythonanywhere.com/w%C4%85tek/{}#{}'.format(nr_watku, nr_wpisu)
 			tytul = self.tytulWatku(nr_watku).encode('utf8')
-			wpisy += self.szablon_wpisu.format(autor=autor, tytul='{} odpowiada w wątku „{}”'.format(autor, tytul), czas_iso=czas_iso, wyroznik=adres_wpisu, strona=adres_wpisu, tresc=tresc.encode('utf8'))
-		return self.szablon.format(tytul='Polskie forum Opery', czas_iso=strftime(format_czasu_iso), wyroznik=adres, adres=pelny_adres, wpisy=wpisy)
+			wpisy += self.szablon_wpisu.format(**zencjuj(autor=autor, tytul='{} odpowiada w wątku „{}”'.format(autor, tytul), czas_iso=czas_iso, wyroznik=adres_wpisu, strona=adres_wpisu, tresc=tresc.encode('utf8')))
+		return self.szablon.format(tytul='Polskie forum Opery', czas_iso=strftime(format_czasu_iso), adres=pelny_adres, wpisy=wpisy)
 
 	def strona(self, adres, pelny_adres):
 		return self.oHTMLowany(adres, pelny_adres)

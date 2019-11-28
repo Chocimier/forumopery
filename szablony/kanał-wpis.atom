@@ -5,6 +5,8 @@
 		<id>{wyroznik}</id>
 		<link rel="alternate" type="text/html" href="{strona}"/>
 		<content type="xhtml">
+		<div xmlns="http://www.w3.org/1999/xhtml">
 {tresc}
+		</div>
 		</content>
 	</entry>
