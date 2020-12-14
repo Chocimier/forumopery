@@ -11,7 +11,7 @@ class Dzial:
 		return self.k.fetchone()[0]
 
 	def watki(self, nr_dzialu):
-		zapytanie = 'SELECT nr_watku, tytul, zamknieto, wyswietlen FROM watki WHERE nr_dzialu=? ORDER BY nr_watku DESC;'
+		zapytanie = 'SELECT nr_watku, tytul, zamknieto, wyswietlen FROM watki WHERE nr_dzialu=? AND zatwierdzony = 1 ORDER BY nr_watku DESC;'
 		zmienne = (nr_dzialu,)
 		self.k.execute(zapytanie, zmienne)
 		return self.k.fetchall()

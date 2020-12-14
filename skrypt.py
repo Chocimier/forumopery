@@ -36,7 +36,7 @@ def podstrona(adres, nr=0):
 		return Szukaj().strona(request.query.q)
 	elif sciezka == '/wpisy.atom':
 		response.content_type='application/atom+xml; charset=utf-8'
-		return Kanal().strona(sciezka, pelny_adres)
+		return Kanal().strona(sciezka, pelny_adres, request.query.zespamem)
 	else:
 		abort(404, 'Nie ma takiej strony')
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'

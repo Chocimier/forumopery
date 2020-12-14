@@ -5,8 +5,11 @@ from narzedzia import zencjuj, szablon, format_czasu_w_bazie, format_czasu_iso
 from time import strptime, strftime
 
 class Kanal:
-	def najnowsze(self):
-		zapytanie = 'SELECT nr_watku, tresc, autor, data_wyslania, nr_wpisu FROM wpisy ORDER BY data_wyslania DESC LIMIT 20;'
+	def najnowsze(self, zespamem):
+		zapytanie = (
+		    'SELECT nr_watku, tresc, autor, data_wyslania, nr_wpisu FROM wpisy ' +
+		    ('' if zespamem else 'WHERE zatwierdzony = 1 ') +
+		    'ORDER BY data_wyslania DESC LIMIT 20;')
 		self.k.execute(zapytanie)
 		return self.k.fetchall()
 
@@ -16,9 +19,9 @@ class Kanal:
 		self.k.execute(zapytanie, zmienne)
 		return self.k.fetchone()[0]
 
-	def oHTMLowany(self, adres, pelny_adres):
+	def oHTMLowany(self, adres, pelny_adres, zespamem):
 		wpisy = ""
-		for nr_watku, tresc, autor, data_wyslania, nr_wpisu in self.najnowsze():
+		for nr_watku, tresc, autor, data_wyslania, nr_wpisu in self.najnowsze(zespamem):
 			czas_krotka = strptime(str(data_wyslania), format_czasu_w_bazie)
 			czas_iso = strftime(format_czasu_iso, czas_krotka)
 			adres_wpisu = 'http://forumopery.pythonanywhere.com/w%C4%85tek/{}#{}'.format(nr_watku, nr_wpisu)
@@ -26,8 +29,8 @@ class Kanal:
 			wpisy += self.szablon_wpisu.format(**zencjuj(autor=autor, tytul='{} odpowiada w wątku „{}”'.format(autor, tytul), czas_iso=czas_iso, wyroznik=adres_wpisu, strona=adres_wpisu, tresc=tresc.encode('utf8')))
 		return self.szablon.format(tytul='Polskie forum Opery', czas_iso=strftime(format_czasu_iso), adres=pelny_adres, wpisy=wpisy)
 
-	def strona(self, adres, pelny_adres):
-		return self.oHTMLowany(adres, pelny_adres)
+	def strona(self, adres, pelny_adres, zespamem):
+		return self.oHTMLowany(adres, pelny_adres, zespamem)
 
 	def __init__(self):
 		self.baza = sqlite3.connect('/home/forumopery/forum.sqlite')

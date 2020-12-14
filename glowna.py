@@ -6,7 +6,7 @@ from time import strptime, strftime
 
 class Glowna:
 	def najnowsze(self):
-		zapytanie = 'SELECT nr_watku, tresc, autor, data_wyslania, nr_wpisu FROM wpisy ORDER BY data_wyslania DESC LIMIT 8;'
+		zapytanie = 'SELECT nr_watku, tresc, autor, data_wyslania, nr_wpisu FROM wpisy WHERE zatwierdzony = 1 ORDER BY data_wyslania DESC LIMIT 8;'
 		self.k.execute(zapytanie)
 		return self.k.fetchall()
 
