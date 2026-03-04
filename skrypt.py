@@ -43,6 +43,7 @@ def podstrona(adres, nr=0):
 
 @route('/zasoby/<adres>')
 def zasoby(adres):
+	from bottle import static_file
 	return static_file(adres, root='/home/forumopery/forumopery/zasoby/')
 
 @post('/<adres>')
