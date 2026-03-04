@@ -1,0 +1,4 @@
+bbcode>=1.1.0
+bottle>=0.13.4
+gunicorn>=25.1.0
+six>=1.17.0
