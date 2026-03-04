@@ -6,9 +6,6 @@ from bottle import default_app, route, request, post, response, abort
 from watek import Watek
 from dzial import Dzial
 from glowna import Glowna
-from nowywpis import NowyWpis
-from rejestracja import Rejestracja
-from nowywatek import NowyWatek
 from kanal import Kanal
 from szukaj import Szukaj
 from wpis import Wpis
@@ -28,10 +25,6 @@ def podstrona(adres, nr=0):
 		return Dzial().strona(nr)
 	elif sciezka.startswith('/wpis/'):
 		return Wpis().strona(nr)
-	elif sciezka == '/rejestracja':
-		return Rejestracja().strona({})
-	elif sciezka == '/nowy_wątek':
-		return NowyWatek().strona(request.query.dzial)
 	elif sciezka == '/szukaj':
 		return Szukaj().strona(request.query.q)
 	elif sciezka == '/wpisy.atom':
@@ -49,11 +42,7 @@ def zasoby(adres):
 @post('/<adres>')
 def post(adres):
 	sciezka = request.environ.get('PATH_INFO')
-	if sciezka == '/nowywpis':
-		return NowyWpis().strona(request.forms)
-	elif sciezka == '/rejestracja':
-		return Rejestracja().strona(request.forms)
-	else:
+	if True:
 		abort(404, 'Nie ma takiej strony')
 		return '<!DOCTYPE HTML>\nPodstrona ' + sciezka + ' nie istnieje. W zamian zapraszam na <a href=/>stronę główną</a>.'
 
