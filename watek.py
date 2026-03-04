@@ -1,6 +1,7 @@
 # coding: utf8
 
 import sqlite3
+import six
 from time import strftime, strptime
 from narzedzia import szablon, odmienione_miesiace, odmienione_dni, format_czasu_w_bazie, format_czasu_iso
 
@@ -26,14 +27,14 @@ class Watek:
 	def oHTMLowany(self, nr_watku):
 		tytul, zamknieto, powod_zamkniecia = self.oWatku(nr_watku)
 		nr_dzialu, nazwa_dzialu = self.oDzialeWatku(nr_watku)
-		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia and powod_zamkniecia.encode('utf8'))
+		oZamknieciu = '' if not zamknieto else self.szablon_zamkniety.format(powod=powod_zamkniecia and six.ensure_str(powod_zamkniecia))
 		wpisy = ""
 		for autor, tresc, czas_wyslania, nr_wpisu in self.wpisy(nr_watku):
 			czas_krotka = strptime(str(czas_wyslania), format_czasu_w_bazie)
 			czas_ladnie = strftime('{dzien[%w]} %d {miesiac[%m]} %Y o %H<sup class=minuta>%M</sup>', czas_krotka).format(miesiac=odmienione_miesiace, dzien=odmienione_dni)
 			czas_iso = strftime(format_czasu_iso, czas_krotka)
-			wpisy += self.szablon_wpisu.format(autor=autor.encode('utf8'), tresc=tresc.encode('utf8'), czas_iso=czas_iso, czas_ladnie=czas_ladnie, nr_wpisu=nr_wpisu)
-		return self.szablon.format(tytul=tytul.encode('utf8'), nazwa_dzialu=nazwa_dzialu.encode('utf8'), nr_dzialu=nr_dzialu, wpisy=wpisy, zamkniety=oZamknieciu, nr_watku=nr_watku)
+			wpisy += self.szablon_wpisu.format(autor=six.ensure_str(autor), tresc=six.ensure_str(tresc), czas_iso=czas_iso, czas_ladnie=czas_ladnie, nr_wpisu=nr_wpisu)
+		return self.szablon.format(tytul=six.ensure_str(tytul), nazwa_dzialu=six.ensure_str(nazwa_dzialu), nr_dzialu=nr_dzialu, wpisy=wpisy, zamkniety=oZamknieciu, nr_watku=nr_watku)
 
 	def strona(self, nr_watku):
 		zapytanie = 'SELECT nr_watku FROM watki WHERE nr_watku=?;'

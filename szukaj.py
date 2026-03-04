@@ -1,6 +1,7 @@
 #coding: utf8
 
 import sqlite3
+import six
 from narzedzia import szablon
 
 # baza sqlite z wyszukiwaniem pełnotekstowym, kluczem głownym i obcym wg pomysłu Žarko Gajicia:
@@ -19,7 +20,7 @@ class Szukaj:
 		for nr_wpisu, nr_watku, tytul, zamknieto, wyswietlen in self.szukaj(wyraz):
 			zamknieto = '[zamknięty] ' if zamknieto else ''
 			nr='{}#{}'.format(nr_watku, nr_wpisu)
-			tytul=tytul.encode('utf8')
+			tytul=six.ensure_str(tytul)
 			watki += self.szablon_watku.format(**locals())
 		nr_dzialu=0
 		return self.szablon.format(**locals())

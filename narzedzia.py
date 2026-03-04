@@ -1,6 +1,6 @@
 #coding: utf8
 
-import sqlite3, bbcode, cgi
+import sqlite3, bbcode
 
 odmienione_miesiace = ('',
 		'stycznia', 'lutego', 'marca',
@@ -111,4 +111,8 @@ def niezarejestrowany(uzytkownik):
 	return False if odpowiedz==None else not odpowiedz[0]
 
 def zencjuj(**kwargs):
+	try:
+		import html as cgi
+	except ImportError:
+		import cgi
 	return { k: cgi.escape(v) for k, v in kwargs.items() }

@@ -1,6 +1,7 @@
 # coding: utf8
 
 import sqlite3
+import six
 from narzedzia import szablon
 
 class NowyWatek:
@@ -10,7 +11,7 @@ class NowyWatek:
 		self.k.execute(zapytanie)
 		for nazwa_dzialu, nr in self.k.fetchall():
 			try:
-				wynik += '<option value={nr_dzialu}{wybrany}>{nazwa_dzialu}</option>'.format(nazwa_dzialu=nazwa_dzialu.encode('utf8'), nr_dzialu=nr, wybrany=(' selected=selected' if int(nr)==int(nr_dzialu) else ''))
+				wynik += '<option value={nr_dzialu}{wybrany}>{nazwa_dzialu}</option>'.format(nazwa_dzialu=six.ensure_str(nazwa_dzialu), nr_dzialu=nr, wybrany=(' selected=selected' if int(nr)==int(nr_dzialu) else ''))
 			except TypeError:
 				print(dir(dane.items))
 				raise TypeError
